@@ -35,6 +35,10 @@ public class authActivity extends AppCompatActivity {
         auth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(password.getText().toString().length() < 6) {
+                    Toast.makeText(getApplicationContext(), "비밀번호는 6자리 이상으로 입력해주십시오.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 FirebaseAuth.getInstance()
                         .createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                         .addOnCompleteListener(authActivity.this, new OnCompleteListener<AuthResult>() {
