@@ -1,10 +1,14 @@
 package com.example.user.myapplication;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,16 +17,22 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,8 +49,10 @@ public class SendActivity extends AppCompatActivity{
     private RadioGroup sendTime;
     private RadioGroup sendUrgent;
 
+    private ImageView img;
     private Button buttonSend;
     private Button buttonGps;
+    private Button buttonPic;
 
     private String sendTimeString;
     private String sendUrgentString;
@@ -54,6 +66,21 @@ public class SendActivity extends AppCompatActivity{
     private boolean isPermission = false;
     private GPSInfo gps;
 
+    private Uri photoURI;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data.getData()!=null){
+            try{
+                photoURI = data.getData();
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
+                img.setImageBitmap(bitmap);
+                }catch (Exception e){
+                e.printStackTrace();
+                }
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +89,19 @@ public class SendActivity extends AppCompatActivity{
         chatData = new ChatData();
 
         gpsLa = (TextView)findViewById(R.id.textLatitude);
-        gpsLo = (TextView)findViewById(R.id.textLongitude);
+        gpsLo = (TextView)findViewById(R.id.textLongitude);\
+
+        buttonPic = findViewById(R.id.buttonPic);
+        buttonPic.getBackground().setColorFilter(0xFF0099cc, PorterDuff.Mode.MULTIPLY);
+        buttonPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                intent.setType("image/*");
+                startActivityForResult(intent, 1);
+            }
+        });
 
         buttonSend = findViewById(R.id.sendButton);
         buttonSend.getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
@@ -78,6 +117,21 @@ public class SendActivity extends AppCompatActivity{
                 chatData.messageExtra = "보고시기 : " + sendTimeString + " / 상황상태 : " +sendUrgentString;
                 chatData.message = message.getText().toString();
                 chatData.time = System.currentTimeMillis();
+
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference();
+                StorageReference riversRef = storageRef.child("images/"+photoURI.getLastPathSegment());
+                UploadTask uploadTask = riversRef.putFile(photoURI);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    }
+                });
+
                 FirebaseDatabase.getInstance().getReference("messages").push().setValue(chatData);
 
                 Toast.makeText(getApplicationContext(), "상황이 성공적으로 전파되었습니다.", Toast.LENGTH_SHORT).show();

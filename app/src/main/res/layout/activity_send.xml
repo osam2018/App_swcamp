@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context="com.example.user.myapplication.SendActivity">
 
+    <Button
+        android:id="@+id/buttonPic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="사진전송"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toStartOf="@+id/space"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="0dp"
@@ -121,6 +134,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout7"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -132,7 +146,7 @@
         app:layout_constraintBottom_toTopOf="@+id/sendButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonGps">
+        app:layout_constraintTop_toBottomOf="@+id/textLatitude">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/inputText"
@@ -141,9 +155,37 @@
             android:hint="상황 입력" />
     </android.support.design.widget.TextInputLayout>
 
+    <TextView
+        android:id="@+id/textLatitude"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="경도 :"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/space"
+        app:layout_constraintTop_toBottomOf="@+id/textLongitude" />
+
+    <TextView
+        android:id="@+id/textLongitude"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="위도 :"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/space"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGps" />
+
     <Button
         android:id="@+id/buttonGps"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -152,45 +194,31 @@
         android:textColor="#fff"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/buttonPic"
+        app:layout_constraintStart_toEndOf="@+id/space"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <TextView
-        android:id="@+id/textLatitude"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="경도 :"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonGps"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupUrgent" />
-
-    <TextView
-        android:id="@+id/textLongitude"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="위도 :"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonGps"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonGps"
-        app:layout_constraintTop_toBottomOf="@+id/textLatitude" />
-
-    <Button
-        android:id="@+id/buttonPic"
+    <Space
+        android:id="@+id/space"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupUrgent" />
+
+    <ImageView
+        android:id="@+id/sendImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:text="사진전송"
-        android:textColor="#fff"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout7"
+        app:layout_constraintEnd_toEndOf="@+id/space"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonPic"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
 
 </android.support.constraint.ConstraintLayout>

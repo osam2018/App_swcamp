@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -37,7 +39,6 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
         ChatData chatData = getItem(position);
         viewHolder.mTxtUserGroup.setText(chatData.userGroup);
         viewHolder.mTxtUserName.setText(chatData.userName);
@@ -56,6 +57,7 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
         private TextView mTxtUserName;
         private TextView mTxtMessageExtra;
         private TextView mTxtMessage;
+        private ImageView mImg;
         private TextView mTxtGpsAdress;
         private TextView mTxtGps;
         private TextView mTxtTime;
