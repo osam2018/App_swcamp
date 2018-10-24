@@ -1,5 +1,6 @@
 package com.example.user.myapplication;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ChildEventListener mChildEventListener;
     // Views
     private ListView mListView;
-    private EditText mEdtMessage;
     // Values
     private ChatAdapter mAdapter;
     private UserInfo user;
@@ -42,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mListView = (ListView) findViewById(R.id.list_message);
         mAdapter = new ChatAdapter(this, 0);
         mListView.setAdapter(mAdapter);
-
-        mEdtMessage = (EditText) findViewById(R.id.edit_message);
         findViewById(R.id.btn_send).setOnClickListener(this);
     }
 
@@ -87,18 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initValues() {
-        final String uid = getIntent().getExtras().getString("UID");
-        FirebaseDatabase.getInstance().getReference("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                user = dataSnapshot.getValue(UserInfo.class);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     @Override
@@ -109,15 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        String message = mEdtMessage.getText().toString();
-        if (!TextUtils.isEmpty(message)) {
-            mEdtMessage.setText("");
-            ChatData chatData = new ChatData();
-            chatData.userGroup = "소속 : "+user.userGroup;
-            chatData.userName = "사용자 : "+user.userName;
-            chatData.message = message;
-            chatData.time = System.currentTimeMillis();
-            mDatabaseReference.push().setValue(chatData);
-        }
+        startActivity(new Intent(MainActivity.this, SendActivity.class));
     }
 }

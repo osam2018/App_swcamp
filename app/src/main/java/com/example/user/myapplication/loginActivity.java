@@ -50,13 +50,7 @@ public class loginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    final String uid = task.getResult().getUser().getUid();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("UID", uid);
-
-                                    Intent intent = new Intent(loginActivity.this, MainActivity.class);
-                                    intent.putExtras(bundle);
-                                    startActivity(intent);
+                                    startActivity(new Intent(loginActivity.this, MainActivity.class));
                                     finish();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "실패하였습니다.", Toast.LENGTH_SHORT).show();

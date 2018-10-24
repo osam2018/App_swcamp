@@ -23,6 +23,11 @@
             android:textSize="12sp"/>
 
         <TextView
+            android:id="@+id/txt_messageExtra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"/>
+        <TextView
             android:id="@+id/txt_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

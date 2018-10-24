@@ -27,6 +27,7 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
             viewHolder = new ViewHolder();
             viewHolder.mTxtUserGroup = (TextView) convertView.findViewById(R.id.txt_userGroup);
             viewHolder.mTxtUserName = (TextView) convertView.findViewById(R.id.txt_userName);
+            viewHolder.mTxtMessageExtra = (TextView) convertView.findViewById(R.id.txt_messageExtra);
             viewHolder.mTxtMessage = (TextView) convertView.findViewById(R.id.txt_message);
             viewHolder.mTxtTime = (TextView) convertView.findViewById(R.id.txt_time);
 
@@ -38,6 +39,7 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
         ChatData chatData = getItem(position);
         viewHolder.mTxtUserGroup.setText(chatData.userGroup);
         viewHolder.mTxtUserName.setText(chatData.userName);
+        viewHolder.mTxtMessageExtra.setText(chatData.messageExtra);
         viewHolder.mTxtMessage.setText(chatData.message);
         viewHolder.mTxtTime.setText(mSimpleDateFormat.format(chatData.time));
 
@@ -47,6 +49,7 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
     private class ViewHolder {
         private TextView mTxtUserGroup;
         private TextView mTxtUserName;
+        private TextView mTxtMessageExtra;
         private TextView mTxtMessage;
         private TextView mTxtTime;
     }

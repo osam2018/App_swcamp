@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".authActivity"></activity>
+        <activity android:name=".authActivity" />
+        <activity android:name=".SendActivity"></activity>
     </application>
 
 </manifest>
