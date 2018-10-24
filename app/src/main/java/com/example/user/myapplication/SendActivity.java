@@ -108,10 +108,7 @@ public class SendActivity extends AppCompatActivity{
                     try{
                         addr = gCoder.getFromLocation(chatData.gpsLatitude,chatData.gpsLongitude,1);
                         Address a = addr.get(0);
-                        for (int i=0;i <= a.getMaxAddressLineIndex();i++) {
-                            //여기서 변환된 주소 확인할  수 있음
-                            Log.v("알림", "AddressLine(" + i + ")" + a.getAddressLine(i) + "\n");
-                        }
+                        chatData.gpsAddress = a.getAddressLine(0);
                     } catch (IOException e){
                         e.printStackTrace();
                     }

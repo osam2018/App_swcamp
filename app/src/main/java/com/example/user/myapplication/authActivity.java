@@ -45,12 +45,17 @@ public class authActivity extends AppCompatActivity {
                         .addOnCompleteListener(authActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                final String uid = task.getResult().getUser().getUid();
+                                if(task.isSuccessful()) {
+                                    final String uid = task.getResult().getUser().getUid();
 
-                                databaseReference = FirebaseDatabase.getInstance().getReference();
-                                databaseReference.child("users").child(uid).setValue(new UserInfo(name.getText().toString(), group.getText().toString()));
-                                Toast.makeText(getApplicationContext(), "회원가입을 성공하셨습니다.", Toast.LENGTH_SHORT).show();
-                                finish();
+                                    databaseReference = FirebaseDatabase.getInstance().getReference();
+                                    databaseReference.child("users").child(uid).setValue(new UserInfo(name.getText().toString(), group.getText().toString()));
+                                    Toast.makeText(getApplicationContext(), "회원가입에 성공했습니다.", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    email.setText("");
+                                    Toast.makeText(getApplicationContext(), "이메일 형식이 맞지 않거나 사용 중입니다.", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
             }
