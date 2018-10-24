@@ -34,7 +34,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@android:color/holo_red_dark"
         android:text="상  황  전  파"
         android:textColor="#fff"
         android:textSize="24sp"

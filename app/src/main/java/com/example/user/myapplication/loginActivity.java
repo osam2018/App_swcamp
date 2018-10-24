@@ -1,6 +1,7 @@
 package com.example.user.myapplication;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class loginActivity extends AppCompatActivity {
                 startActivity(new Intent(loginActivity.this, authActivity.class));
             }
         });
+        auth.getBackground().setColorFilter(0xFF0099cc, PorterDuff.Mode.MULTIPLY);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,5 +61,6 @@ public class loginActivity extends AppCompatActivity {
                         });
             }
         });
+        login.getBackground().setColorFilter(0xFF0099cc, PorterDuff.Mode.MULTIPLY);
     }
 }

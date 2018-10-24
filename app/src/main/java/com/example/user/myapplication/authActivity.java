@@ -1,5 +1,6 @@
 package com.example.user.myapplication;
 
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,5 +55,6 @@ public class authActivity extends AppCompatActivity {
                         });
             }
         });
+        auth.getBackground().setColorFilter(0xFF0099cc, PorterDuff.Mode.MULTIPLY);
     }
 }

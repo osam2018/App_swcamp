@@ -1,6 +1,7 @@
 package com.example.user.myapplication;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,11 +45,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAdapter = new ChatAdapter(this, 0);
         mListView.setAdapter(mAdapter);
         findViewById(R.id.btn_send).setOnClickListener(this);
+        findViewById(R.id.btn_send).getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
     }
 
     private void initFirebaseDatabase() {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference("message");
+        mDatabaseReference = mFirebaseDatabase.getReference("messages");
         mChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

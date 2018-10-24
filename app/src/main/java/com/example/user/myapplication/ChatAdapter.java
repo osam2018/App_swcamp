@@ -29,6 +29,7 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
             viewHolder.mTxtUserName = (TextView) convertView.findViewById(R.id.txt_userName);
             viewHolder.mTxtMessageExtra = (TextView) convertView.findViewById(R.id.txt_messageExtra);
             viewHolder.mTxtMessage = (TextView) convertView.findViewById(R.id.txt_message);
+            viewHolder.mTxtGps = (TextView) convertView.findViewById(R.id.txt_gps);
             viewHolder.mTxtTime = (TextView) convertView.findViewById(R.id.txt_time);
 
             convertView.setTag(viewHolder);
@@ -41,8 +42,9 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
         viewHolder.mTxtUserName.setText(chatData.userName);
         viewHolder.mTxtMessageExtra.setText(chatData.messageExtra);
         viewHolder.mTxtMessage.setText(chatData.message);
-        viewHolder.mTxtTime.setText(mSimpleDateFormat.format(chatData.time));
-
+        if(chatData.gpsLatitude != 0 && chatData.gpsLongitude != 0)
+            viewHolder.mTxtGps.setText("보고좌표 : 위도("+Float.toString(chatData.gpsLatitude)+"),경도("+Float.toString(chatData.gpsLongitude)+")");
+        viewHolder.mTxtTime.setText("보고시간 : "+mSimpleDateFormat.format(chatData.time));
         return convertView;
     }
 
@@ -51,6 +53,7 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
         private TextView mTxtUserName;
         private TextView mTxtMessageExtra;
         private TextView mTxtMessage;
+        private TextView mTxtGps;
         private TextView mTxtTime;
     }
 }
