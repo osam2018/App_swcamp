@@ -42,7 +42,8 @@
             android:id="@+id/img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            app:srcCompat="@drawable/abc_btn_borderless_material" />
 
         <TextView
             android:id="@+id/txt_gps"

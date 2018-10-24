@@ -1,14 +1,27 @@
 package com.example.user.myapplication;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -21,7 +34,7 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.listitem_chat, null);
@@ -31,6 +44,7 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
             viewHolder.mTxtUserName = (TextView) convertView.findViewById(R.id.txt_userName);
             viewHolder.mTxtMessageExtra = (TextView) convertView.findViewById(R.id.txt_messageExtra);
             viewHolder.mTxtMessage = (TextView) convertView.findViewById(R.id.txt_message);
+            viewHolder.mImg = (ImageView) convertView.findViewById(R.id.img);
             viewHolder.mTxtGps = (TextView) convertView.findViewById(R.id.txt_gps);
             viewHolder.mTxtGpsAdress = (TextView) convertView.findViewById(R.id.txt_gpsAdress);
             viewHolder.mTxtTime = (TextView) convertView.findViewById(R.id.txt_time);
@@ -44,6 +58,14 @@ public class ChatAdapter extends ArrayAdapter<ChatData> {
         viewHolder.mTxtUserName.setText(chatData.userName);
         viewHolder.mTxtMessageExtra.setText(chatData.messageExtra);
         viewHolder.mTxtMessage.setText(chatData.message);
+
+        if(chatData.picName != "") {
+            //FirebaseStorage storage = FirebaseStorage.getInstance();
+            //StorageReference storageRef = storage.getReferenceFromUrl("gs://test-767b1.appspot.com").child("images/").child(chatData.firebaseKey + "/" + chatData.picName);
+            //Glide.with(this)
+            //        .load(storageRef)
+            //        .into(viewHolder.mImg);
+        }
         if(chatData.gpsLatitude != 0 && chatData.gpsLongitude != 0) {
             viewHolder.mTxtGps.setText("보고좌표 : 위도(" + Float.toString(chatData.gpsLatitude) + "),경도(" + Float.toString(chatData.gpsLongitude) + ")");
             viewHolder.mTxtGpsAdress.setText("보고주소 : "+chatData.gpsAddress);

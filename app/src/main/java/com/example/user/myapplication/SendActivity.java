@@ -1,8 +1,10 @@
 package com.example.user.myapplication;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.location.Address;
 import android.location.Geocoder;
@@ -67,18 +69,24 @@ public class SendActivity extends AppCompatActivity{
     private GPSInfo gps;
 
     private Uri photoURI;
+    private int usePic;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data.getData()!=null){
+
+        if(resultCode != RESULT_OK) return;
+        if(requestCode == 0 && resultCode == RESULT_OK){
+            usePic = 1;
+            photoURI = data.getData();
+            Log.d("SendActivity","uri:"+String.valueOf(photoURI));
             try{
-                photoURI = data.getData();
+
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
                 img.setImageBitmap(bitmap);
-                }catch (Exception e){
+            }catch (Exception e){
                 e.printStackTrace();
-                }
+            }
         }
     }
     @Override
@@ -87,9 +95,13 @@ public class SendActivity extends AppCompatActivity{
         setContentView(R.layout.activity_send);
 
         chatData = new ChatData();
+        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         gpsLa = (TextView)findViewById(R.id.textLatitude);
-        gpsLo = (TextView)findViewById(R.id.textLongitude);\
+        gpsLo = (TextView)findViewById(R.id.textLongitude);
+
+        img = (ImageView)findViewById(R.id.sendImageView);
+        usePic = 0;
 
         buttonPic = findViewById(R.id.buttonPic);
         buttonPic.getBackground().setColorFilter(0xFF0099cc, PorterDuff.Mode.MULTIPLY);
@@ -97,9 +109,9 @@ public class SendActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 intent.setType("image/*");
-                startActivityForResult(intent, 1);
+                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                startActivityForResult(intent, 0);
             }
         });
 
@@ -117,23 +129,28 @@ public class SendActivity extends AppCompatActivity{
                 chatData.messageExtra = "보고시기 : " + sendTimeString + " / 상황상태 : " +sendUrgentString;
                 chatData.message = message.getText().toString();
                 chatData.time = System.currentTimeMillis();
+                final String key = FirebaseDatabase.getInstance().getReference("messages").push().getKey();
+                if(usePic == 1) {
+                    chatData.picName = photoURI.getLastPathSegment();
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    StorageReference storageRef = storage.getReferenceFromUrl("gs://test-767b1.appspot.com");
+                    StorageReference riversRef = storageRef.child("images/").child(key + "/" + photoURI.getLastPathSegment());
+                    UploadTask uploadTask = riversRef.putFile(photoURI);
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            Toast.makeText(getApplicationContext(), "업로드실패.", Toast.LENGTH_SHORT).show();
 
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage.getReference();
-                StorageReference riversRef = storageRef.child("images/"+photoURI.getLastPathSegment());
-                UploadTask uploadTask = riversRef.putFile(photoURI);
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    }
-                });
-
-                FirebaseDatabase.getInstance().getReference("messages").push().setValue(chatData);
-
+                            exception.printStackTrace();
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(getApplicationContext(), "업로드 성공", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                FirebaseDatabase.getInstance().getReference("messages").child(key).setValue(chatData);
                 Toast.makeText(getApplicationContext(), "상황이 성공적으로 전파되었습니다.", Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -187,8 +204,6 @@ public class SendActivity extends AppCompatActivity{
 
         sendUrgent = (RadioGroup) findViewById(R.id.radioGroupUrgent);
         sendUrgent.setOnCheckedChangeListener(urgentGroupChangeListener);
-
-        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase.getInstance().getReference("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
