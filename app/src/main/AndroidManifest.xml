@@ -14,17 +14,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".loginActivity">
+        <activity android:name=".Activity.loginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".authActivity" />
-        <activity android:name=".SendActivity" />
-        <activity android:name=".MenuActivity" />
-        <activity android:name=".NotReceivedActivity"></activity>
+        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.authActivity" />
+        <activity android:name=".Activity.SendActivity" />
+        <activity android:name=".Activity.MenuActivity" />
+        <activity android:name=".Activity.NotReceivedActivity"></activity>
         <service
             android:name=".MyFirebaseMessagingService">
             <intent-filter>

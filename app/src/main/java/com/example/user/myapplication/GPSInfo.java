@@ -36,10 +36,7 @@ import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 
 import android.util.Log;
-
-import com.example.user.myapplication.R;
-
-
+//GPS사용을 위한 클래스
 public class GPSInfo extends Service implements LocationListener{
 
     private final Context mContext;
@@ -168,9 +165,6 @@ public class GPSInfo extends Service implements LocationListener{
                             lat = location.getLatitude();
 
                             lon = location.getLongitude();
-
-
-                            Log.v("알림", "위도 : " + lat + "경도 " + lon);
 
                         }
 
