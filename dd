@@ -1,0 +1,78 @@
+[33mcommit 18e034d0221131ee7a6f4e03d7a288c7b172626c[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: SeHyeon Choe <worldbright0@gmail.com>
+Date:   Fri Oct 26 00:43:00 2018 +0900
+
+    first commit using gitlabzz
+
+[33mcommit 52e30d2824ce6dca0eacbe6f5ce0bf669718228f[m
+Author: worldbright <worldbright0@gmail.com>
+Date:   Fri Oct 26 00:30:28 2018 +0900
+
+    18.10.26 (2)
+    파일 추가를 안했네
+
+[33mcommit f4d5ea99dc597ece4c5128b465856ff463f8bfd8[m
+Author: worldbright <worldbright0@gmail.com>
+Date:   Fri Oct 26 00:24:40 2018 +0900
+
+    18.10.26 (1)
+    사진전송 추가 완료
+    미수신 상황 / 전체목록 나눠서 액티비티 추가
+    로그인 -> 메뉴 액티비티
+    메뉴에서 상황전파/미수신상황목록/전체목록 선택가능 추가
+    후.. 고생했다
+
+[33mcommit e5411e275586efd215ef28074396deb3ce8e3ff8[m
+Author: worldbright <worldbright0@gmail.com>
+Date:   Thu Oct 25 13:43:24 2018 +0900
+
+    18.10.25 (1)
+    사진전송기능 까지 완벽작동.. 후.. 수고했다 나자신
+
+[33mcommit 6e122ab698fac7d6b2ffa4ff3ae7c6ddd3a277cd[m
+Author: worldbright <worldbright0@gmail.com>
+Date:   Wed Oct 24 22:17:44 2018 +0900
+
+    18.10.24 (5)
+    사진전송 글라이드로 해볼려다 실패.. 내일하자
+
+[33mcommit 24420c872c02968182d9928b3073ac4cfc0909e8[m
+Author: worldbright <worldbright0@gmail.com>
+Date:   Wed Oct 24 17:25:04 2018 +0900
+
+    18.10.24 (4)
+    사진전송 중간단계
+
+[33mcommit 703f48177615a06e07a5909d834508cfa708083f[m
+Author: worldbright <worldbright0@gmail.com>
+Date:   Wed Oct 24 16:39:28 2018 +0900
+
+    18.10.24 (3)
+    GPS 주소전송 추가
+
+[33mcommit d00303d21bea2324be35b9c179a4b8e1b65ab2c8[m
+Author: worldbright <worldbright0@gmail.com>
+Date:   Wed Oct 24 15:49:05 2018 +0900
+
+    18.10.24 (2)
+    GPS 위도, 경도 보고 추가
+
+[33mcommit 8fb7224b4b39e0b1aa044826a5c16db6997f4e28[m
+Author: worldbright <worldbright0@gmail.com>
+Date:   Wed Oct 24 12:38:50 2018 +0900
+
+    18.10.24 (1)
+    상황보고 액티비티 따로 만들고
+    보고시기, 상황상태 추가
+
+[33mcommit 23df6447e2415eb138dced802d097343d5360ddc[m
+Author: worldbright <worldbright0@gmail.com>
+Date:   Tue Oct 23 22:54:36 2018 +0900
+
+    second
+
+[33mcommit f433cfd619ae5fc1a974b802648182370d626c01[m
+Author: worldbright <worldbright0@gmail.com>
+Date:   Tue Oct 23 21:54:55 2018 +0900
+
+    first
