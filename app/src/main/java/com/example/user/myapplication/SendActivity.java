@@ -97,6 +97,9 @@ public class SendActivity extends AppCompatActivity{
         chatData = new ChatData();
         final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        sendTimeString = "";
+        sendUrgentString = "";
+
         gpsLa = (TextView)findViewById(R.id.textLatitude);
         gpsLo = (TextView)findViewById(R.id.textLongitude);
 
