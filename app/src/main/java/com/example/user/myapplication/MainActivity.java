@@ -17,22 +17,31 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
+    private DatabaseReference chkDatabaseReference;
     private ChildEventListener mChildEventListener;
     // Views
     private ListView mListView;
     // Values
     private ChatAdapter mAdapter;
-    private UserInfo user;
+    private String uid;
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(MainActivity.this, MenuActivity.class));
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,28 +49,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initViews();
         initFirebaseDatabase();
-        initValues();
     }
 
     private void initViews() {
         mListView = (ListView) findViewById(R.id.list_message);
         mAdapter = new ChatAdapter(this, 0);
         mListView.setAdapter(mAdapter);
-        findViewById(R.id.btn_send).setOnClickListener(this);
-        findViewById(R.id.btn_send).getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
     }
 
     private void initFirebaseDatabase() {
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference("messages");
+        chkDatabaseReference = mFirebaseDatabase.getReference("users").child(uid).child("received");
         mChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 ChatData chatData = dataSnapshot.getValue(ChatData.class);
                 chatData.firebaseKey = dataSnapshot.getKey();
-
-                mAdapter.add(chatData);
-                mListView.smoothScrollToPosition(mAdapter.getCount());
+                chkDatabaseReference.child(chatData.firebaseKey).setValue(1);
+                mAdapter.add(chatData);mListView.smoothScrollToPosition(mAdapter.getCount());
+                Log.d("알림알림알림알림", "새로운 메세지! 읽음처리!");
             }
 
             @Override
@@ -90,19 +98,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         };
         mDatabaseReference.addChildEventListener(mChildEventListener);
     }
-
-    private void initValues() {
-
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mDatabaseReference.removeEventListener(mChildEventListener);
-    }
-
-    @Override
-    public void onClick(View v) {
-        startActivity(new Intent(MainActivity.this, SendActivity.class));
     }
 }

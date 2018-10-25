@@ -43,7 +43,7 @@ import java.util.Locale;
 
 public class SendActivity extends AppCompatActivity{
     private UserInfo user;
-
+    private String uid;
     private EditText message;
     private TextView gpsLa;
     private TextView gpsLo;
@@ -95,8 +95,8 @@ public class SendActivity extends AppCompatActivity{
         setContentView(R.layout.activity_send);
 
         chatData = new ChatData();
-        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        user = new UserInfo();
         sendTimeString = "";
         sendUrgentString = "";
 
@@ -133,7 +133,10 @@ public class SendActivity extends AppCompatActivity{
                 chatData.message = message.getText().toString();
                 chatData.time = System.currentTimeMillis();
                 final String key = FirebaseDatabase.getInstance().getReference("messages").push().getKey();
+                if(usePic == 1) chatData.picName = photoURI.getLastPathSegment();
+                FirebaseDatabase.getInstance().getReference("messages").child(key).setValue(chatData);
                 if(usePic == 1) {
+                    Toast.makeText(getApplicationContext(), "사진 전송 중입니다...", Toast.LENGTH_SHORT).show();
                     chatData.picName = photoURI.getLastPathSegment();
                     FirebaseStorage storage = FirebaseStorage.getInstance();
                     StorageReference storageRef = storage.getReferenceFromUrl("gs://test-767b1.appspot.com");
@@ -142,20 +145,24 @@ public class SendActivity extends AppCompatActivity{
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
-                            Toast.makeText(getApplicationContext(), "업로드실패.", Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(getApplicationContext(), "사진 업로드 실패.", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SendActivity.this, MenuActivity.class));
+                            finish();
                             exception.printStackTrace();
                         }
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(getApplicationContext(), "업로드 성공", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "상황이 성공적으로 전파되었습니다.", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SendActivity.this, MenuActivity.class));
+                            finish();
                         }
                     });
+                } else {
+                    Toast.makeText(getApplicationContext(), "상황이 성공적으로 전파되었습니다.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(SendActivity.this, MenuActivity.class));
+                    finish();
                 }
-                FirebaseDatabase.getInstance().getReference("messages").child(key).setValue(chatData);
-                Toast.makeText(getApplicationContext(), "상황이 성공적으로 전파되었습니다.", Toast.LENGTH_SHORT).show();
-                finish();
             }
         });
 
@@ -207,10 +214,21 @@ public class SendActivity extends AppCompatActivity{
 
         sendUrgent = (RadioGroup) findViewById(R.id.radioGroupUrgent);
         sendUrgent.setOnCheckedChangeListener(urgentGroupChangeListener);
-        FirebaseDatabase.getInstance().getReference("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("users").child(uid).child("userName").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                user = dataSnapshot.getValue(UserInfo.class);
+                user.userName = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        FirebaseDatabase.getInstance().getReference("users").child(uid).child("userGroup").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user.userGroup = dataSnapshot.getValue(String.class);
             }
 
             @Override

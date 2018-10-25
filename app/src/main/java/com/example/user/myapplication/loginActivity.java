@@ -26,6 +26,8 @@ public class loginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //getSupportActionBar().hide();
+
         login = ((Button)findViewById(R.id.loginActivity_button_login));
         auth = ((Button)findViewById(R.id.loginActivity_button_auth));
         id = (EditText) findViewById(R.id.loginActivity_editText_id);
@@ -52,7 +54,7 @@ public class loginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    startActivity(new Intent(loginActivity.this, MainActivity.class));
+                                    startActivity(new Intent(loginActivity.this, MenuActivity.class));
                                     finish();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "실패하였습니다.", Toast.LENGTH_SHORT).show();
