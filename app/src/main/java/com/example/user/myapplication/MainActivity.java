@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 chatData.firebaseKey = dataSnapshot.getKey();
                 chkDatabaseReference.child(chatData.firebaseKey).setValue(1);
                 mAdapter.add(chatData);mListView.smoothScrollToPosition(mAdapter.getCount());
-                Log.d("알림알림알림알림", "새로운 메세지! 읽음처리!");
             }
 
             @Override

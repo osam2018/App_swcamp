@@ -54,7 +54,6 @@ public class NotReceivedActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 lastKey = dataSnapshot.getValue().toString();
                 lastKey = lastKey.substring(1, lastKey.length()-3);
-                Log.d("알림알림알림", "라스트키 값 구했다. : "+lastKey);
                 mDatabaseReference.addChildEventListener(mChildEventListener);
             }
 
@@ -73,10 +72,7 @@ public class NotReceivedActivity extends AppCompatActivity {
                     mAdapter.add(chatData);
                     mListView.smoothScrollToPosition(mAdapter.getCount());
                 }
-                if(lastKey == null) Log.d("알림알림알림", "라스트키 비어있다");
-                else Log.d("알림알림알림", "라스트키값 :"+lastKey);
                 if(dataSnapshot.getKey().equals(lastKey)) chkTemp = 1;
-                else Log.d("알림알림알림","겟키 값 :"+dataSnapshot.getKey());
             }
 
             @Override

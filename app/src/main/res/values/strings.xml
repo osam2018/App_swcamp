@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">고속상황전파체계</string>
+    <string name="rocket">rocket</string>
 </resources>

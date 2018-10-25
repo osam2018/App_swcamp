@@ -67,7 +67,6 @@ public class MenuActivity extends AppCompatActivity {
         countNotReceived = 0;
 
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.d("ㅅㅂ",uid);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference("messages");
         chkDatabaseReference = mFirebaseDatabase.getReference("users").child(uid).child("received");
