@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.example.user.myapplication.Chat.ChatAdapter;
@@ -66,11 +67,16 @@ public class NotReceivedActivity extends AppCompatActivity {
         chkDatabaseReference.orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                lastKey = dataSnapshot.getValue().toString();
-                // {-키값=1} 요런식의 스트링으로 얻어지니 앞의 {- 와 뒤의 =1}를 빼기위해 substring 사용
-                lastKey = lastKey.substring(1, lastKey.length()-3);
-
-                //리스너의 시간차가 있으니 키값을 얻은 후에 messages 하위항목 데이터를 불러오기 위한 리스너 등록
+                //만약 읽은 상황이 있다면
+                if(dataSnapshot.exists()) {
+                    lastKey = dataSnapshot.getValue().toString();
+                    // {-키값=1} 요런식의 스트링으로 얻어지니 앞의 {- 와 뒤의 =1}를 빼기위해 substring 사용
+                    lastKey = lastKey.substring(1, lastKey.length() - 3);
+                //만약 읽은 상황이 없다면 바로 1로 만들어준다. 밑에 리스너에 설명있음
+                } else {
+                    chkTemp = 1;
+                }
+                //리스너의 시간차가 있으니 키값을 얻거나 읽은상황이 없다고 파악된 후 messages 하위항목 데이터를 불러오기 위한 리스너 등록
                 //키값을 얻기 전에 메세지들 불러오면 낭패.
                 mDatabaseReference.addChildEventListener(mChildEventListener);
             }
